@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Base theme from your globals.css */
+    --bg: #000;
+    --text: #e5e7eb;
+    
+    /* Variables for the themes */
+    --glass-bg: rgba(31, 31, 31, 0.425);
+    --glass-border: rgba(255, 255, 255, 0.048);
+    --topic-symbol-color: rgba(167, 139, 250, 0.22);
+    --grid-dot-color: rgba(34, 211, 238, 0.08);
+    --grid-color: rgba(132, 0, 255, 0.08);
+  }
+
+  body {
+    @apply bg-neutral-950 text-neutral-100 font-sans antialiased;
+    background-color: var(--bg);
+    color: var(--text);
+  }
+}
+
+@layer components {
+  /* Your .glass style */
+  .glass {
+    background: var(--glass-bg, rgba(31, 31, 31, 0.425));
+    backdrop-filter: blur(20px);
+    border-radius: 1rem;
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.05));
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.05);
+  }
+}
+
+/* --- Background Themes --- */
+
+/* 1. Default (Dark) */
+.theme-default {
+  background-color: #0a0a0a;
+}
+
+/* 2. Formal Science Theme (Animated Grid) */
+.theme-formal-science {
+  --grid-dot-color: rgba(129, 140, 248, 0.15);
+  background-image: conic-gradient(
+      from 90deg at 1px 1px,
+      var(--grid-dot-color) 90deg,
+      transparent 0
+    ),
+    conic-gradient(
+      from 90deg at 1px 1px,
+      var(--grid-dot-color) 90deg,
+      transparent 0
+    );
+  background-size: 50px 50px;
+  background-position: 0 0;
+  animation: animatedGrid 10s linear infinite;
+}
+
+/* 3. Algebra Theme (Grid) */
+.theme-algebra {
+  --grid-color: rgba(132, 0, 255, 0.08);
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: -1px -1px;
+}
+
+/* 4. Foundations Theme (Dots) */
+.theme-foundations {
+   --grid-dot-color: rgba(34, 211, 238, 0.08);
+  background-image: radial-gradient(var(--grid-dot-color) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* 5. Floating Symbols (for any theme) */
+.floating-symbol {
+  position: absolute;
+  pointer-events: none;
+  animation: floatAround 90s ease-in-out infinite;
+  will-change: transform, opacity;
+  opacity: 0.06;
+  filter: blur(1px);
+  font-size: 3rem;
+  color: var(--topic-symbol-color);
+}
