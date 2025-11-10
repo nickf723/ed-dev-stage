@@ -1,14 +1,18 @@
-// Replace app/layout.tsx with this:
-
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Fira_Code } from "next/font/google";
-import "katex/dist/katex.min.css"
+import "katex/dist/katex.min.css"; // Import KaTeX styles
 
-// Setup the fonts just like your main ed-dev site
+// Setup the fonts
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+});
+
+const firaCode = Fira_Code({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-fira-code",
 });
 
 export const metadata: Metadata = {
@@ -22,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable}`}>
+    <html lang="en" className={`${inter.variable} ${firaCode.variable}`}>
       <body>{children}</body>
     </html>
   );

@@ -9,7 +9,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)", "sans-serif"],
-
+        mono: ["var(--font-fira-code)", "monospace"],
       },
       keyframes: {
         animatedGrid: {

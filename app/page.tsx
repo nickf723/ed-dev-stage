@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion"; // <-- 1. IMPORT MOTION
+import { motion } from "framer-motion";
 import { Stage } from "@/app/components/Stage";
 import { Controls } from "@/app/components/Controls";
 import { lessons, lessonIds } from "@/app/animations/lesson-manifest";
 import { useTilt } from "@/app/hooks/useTilt";
 
+// Define our background presets
 const themes = [
   { id: "theme-default", name: "Default Dark" },
   { id: "theme-formal-science", name: "Formal Science Grid" },
@@ -20,23 +21,30 @@ const themes = [
   { id: "theme-glossary", name: "Glossary Grid" },
 ];
 
+// Define aspect ratios
 const ratios = [
   { id: "shorts", name: "Shorts (9:16)", aspect: "aspect-[9/16]" },
   { id: "standard", name: "Video (16:9)", aspect: "aspect-video" },
 ];
 
 export default function VideoStagePage() {
+  // --- All state lives in the top-level controller ---
   const [activeTheme, setActiveTheme] = useState(themes[0].id);
   const [activeRatio, setActiveRatio] = useState(ratios[0]);
   const [showSymbols, setShowSymbols] = useState(true);
   const [activeLessonId, setActiveLessonId] = useState(lessonIds[0]);
   const [currentStep, setCurrentStep] = useState(0);
 
+  // Get the full lesson object
   const activeLesson = lessons[activeLessonId];
+
+  // --- Apply the 3D tilt hook ---
   const stageRef = useTilt<HTMLDivElement>();
   const controlsRef = useTilt<HTMLDivElement>();
 
+  // --- All event handlers live here ---
   const nextStep = () => {
+    // Only advance if not at the end
     if (currentStep < activeLesson.steps.length - 1) {
       setCurrentStep((s) => s + 1);
     }
@@ -48,14 +56,14 @@ export default function VideoStagePage() {
   
   const selectLesson = (lessonId: string) => {
     setActiveLessonId(lessonId);
-    setCurrentStep(0);
+    setCurrentStep(0); // Reset step count on lesson change
   };
-
 
   return (
     <main className={`flex h-screen w-full items-center justify-center gap-8 p-8 
                     overflow-hidden relative ${activeTheme}`}>
       
+      {/* --- Atmospheric Blobs --- */}
       <div
         className="animated-blob top-[10vh] left-[10vw] h-[300px] w-[300px] 
                    animate-blob-slow bg-[var(--topic-blob-1)]"
@@ -65,7 +73,7 @@ export default function VideoStagePage() {
                    animate-blob-medium bg-[var(--topic-blob-2)]"
       />
       
-      {/* 2. WRAP STAGE IN MOTION.DIV FOR ENTRANCE */}
+      {/* SECTION 1: THE STAGE */}
       <motion.div 
         ref={stageRef}
         className={`relative flex-1 ${activeRatio.aspect} max-h-[90vh]`}
@@ -81,7 +89,7 @@ export default function VideoStagePage() {
         />
       </motion.div>
 
-      {/* 3. WRAP CONTROLS IN MOTION.DIV FOR ENTRANCE */}
+      {/* SECTION 2: THE CONTROLS */}
       <motion.div 
         ref={controlsRef}
         className="h-full max-h-[90vh]"
@@ -90,12 +98,15 @@ export default function VideoStagePage() {
         transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
       >
         <Controls
+          // Pass all state down
           activeLessonId={activeLessonId}
           activeTheme={activeTheme}
           activeRatio={activeRatio}
           showSymbols={showSymbols}
           themes={themes}
           ratios={ratios}
+          
+          // Pass all handlers down
           onNext={nextStep}
           onReset={resetAnimation}
           onSelectLesson={selectLesson}

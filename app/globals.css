@@ -4,16 +4,20 @@
 
 @layer base {
   :root {
-    /* Base theme from your globals.css */
+    /* Base */
     --bg: #000;
     --text: #e5e7eb;
     
-    /* Variables for the themes */
+    /* Glass */
     --glass-bg: rgba(31, 31, 31, 0.425);
     --glass-border: rgba(255, 255, 255, 0.048);
+    
+    /* Default Theme Vars */
     --topic-symbol-color: rgba(167, 139, 250, 0.22);
-    --grid-dot-color: rgba(34, 211, 238, 0.08);
-    --grid-color: rgba(132, 0, 255, 0.08);
+    --color-text-title: #22d3ee; /* cyan-400 */
+    --color-text-header: #67e8f9; /* cyan-300 */
+    --topic-blob-1: rgba(34, 211, 238, 0.2);
+    --topic-blob-2: rgba(103, 232, 249, 0.15);
   }
 
   body {
@@ -21,10 +25,75 @@
     background-color: var(--bg);
     color: var(--text);
   }
+  
+  /* --- Theme-Specific Variables --- */
+  .theme-formal-science {
+    --color-text-title: #a78bfa;
+    --color-text-header: #818cf8;
+    --topic-blob-1: rgba(167, 139, 250, 0.25);
+    --topic-blob-2: rgba(129, 140, 248, 0.2);
+    --grid-dot-color: rgba(129, 140, 248, 0.15);
+  }
+  .theme-algebra {
+    --color-text-title: #a78bfa;
+    --color-text-header: #818cf8;
+    --topic-blob-1: rgba(132, 0, 255, 0.25);
+    --topic-blob-2: rgba(45, 0, 204, 0.2);
+    --grid-color: rgba(132, 0, 255, 0.08);
+  }
+  .theme-foundations {
+    --color-text-title: #22d3ee;
+    --color-text-header: #67e8f9;
+    --topic-blob-1: rgba(34, 211, 238, 0.2);
+    --topic-blob-2: rgba(103, 232, 249, 0.15);
+    --grid-dot-color: rgba(34, 211, 238, 0.08);
+  }
+  .theme-natural-science {
+    --color-text-title: #4ade80;
+    --color-text-header: #86efac;
+    --topic-blob-1: rgba(77, 222, 128, 0.2);
+    --topic-blob-2: rgba(34, 197, 94, 0.2);
+    --grid-color: rgba(34, 197, 94, 0.08);
+  }
+  .theme-social-science {
+    --color-text-title: #f87171; /* red-400 */
+    --color-text-header: #fca5a5; /* red-300 */
+    --topic-blob-1: rgba(239, 68, 68, 0.2);
+    --topic-blob-2: rgba(248, 113, 113, 0.15);
+    --grid-dot-color: rgba(239, 68, 68, 0.1);
+  }
+  .theme-applied-science {
+    --color-text-title: #60a5fa; /* blue-400 */
+    --color-text-header: #93c5fd; /* blue-300 */
+    --topic-blob-1: rgba(59, 130, 246, 0.2);
+    --topic-blob-2: rgba(96, 165, 250, 0.15);
+    --grid-color: rgba(59, 130, 246, 0.1);
+  }
+  .theme-humanities {
+    --color-text-title: #fb923c; /* orange-400 */
+    --color-text-header: #fdba74; /* orange-300 */
+    --topic-blob-1: rgba(249, 115, 22, 0.2);
+    --topic-blob-2: rgba(251, 146, 60, 0.15);
+    --grid-color: rgba(249, 115, 22, 0.1);
+  }
+  .theme-interdisciplines {
+    --color-text-title: #e879f9; /* fuchsia-400 */
+    --color-text-header: #f0abfc; /* fuchsia-300 */
+    --topic-blob-1: rgba(217, 70, 239, 0.2);
+    --topic-blob-2: rgba(232, 121, 249, 0.15);
+    --grid-color: rgba(217, 70, 239, 0.07);
+  }
+  .theme-glossary {
+    --color-text-title: #9ca3af; /* gray-400 */
+    --color-text-header: #d1d5db; /* gray-300 */
+    --topic-blob-1: rgba(107, 114, 128, 0.2);
+    --topic-blob-2: rgba(156, 163, 175, 0.15);
+    --grid-color: rgba(107, 114, 128, 0.1);
+  }
 }
 
 @layer components {
-  /* Your .glass style */
+  /* Glass */
   .glass {
     background: var(--glass-bg, rgba(31, 31, 31, 0.425));
     backdrop-filter: blur(20px);
@@ -32,18 +101,21 @@
     border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.05));
     box-shadow: 0 0 25px rgba(0, 255, 255, 0.05);
   }
+
+  /* Gradient Text */
+  .gradient-text {
+    background: linear-gradient(90deg, var(--color-text-title), var(--color-text-header));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
 }
 
 /* --- Background Themes --- */
-
-/* 1. Default (Dark) */
 .theme-default {
   background-color: #0a0a0a;
 }
-
-/* 2. Formal Science Theme (Animated Grid) */
 .theme-formal-science {
-  --grid-dot-color: rgba(129, 140, 248, 0.15);
   background-image: conic-gradient(
       from 90deg at 1px 1px,
       var(--grid-dot-color) 90deg,
@@ -58,25 +130,65 @@
   background-position: 0 0;
   animation: animatedGrid 10s linear infinite;
 }
-
-/* 3. Algebra Theme (Grid) */
 .theme-algebra {
-  --grid-color: rgba(132, 0, 255, 0.08);
   background-image:
     linear-gradient(var(--grid-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
   background-size: 40px 40px;
   background-position: -1px -1px;
 }
-
-/* 4. Foundations Theme (Dots) */
 .theme-foundations {
-   --grid-dot-color: rgba(34, 211, 238, 0.08);
   background-image: radial-gradient(var(--grid-dot-color) 1px, transparent 1px);
   background-size: 20px 20px;
 }
+.theme-natural-science {
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 30px 30px;
+  background-position: -1px -1px;
+}
+.theme-social-science {
+  background-image: radial-gradient(var(--grid-dot-color) 1px, transparent 1px);
+  background-size: 15px 15px;
+}
+.theme-applied-science {
+  background-image:
+    linear-gradient(var(--grid-color) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, var(--grid-color) 1.5px, transparent 1.5px);
+  background-size: 60px 60px;
+  background-position: -1.5px -1.5px;
+}
+.theme-humanities {
+  background-color: #1a1a1a;
+  background-image:
+    linear-gradient(135deg, var(--grid-color) 25%, transparent 25%),
+    linear-gradient(225deg, var(--grid-color) 25%, transparent 25%),
+    linear-gradient(45deg, var(--grid-color) 25%, transparent 25%),
+    linear-gradient(315deg, var(--grid-color) 25%, #1a1a1a 25%);
+  background-position: 10px 0, 10px 0, 0 0, 0 0;
+  background-size: 20px 20px;
+  background-repeat: repeat;
+}
+.theme-interdisciplines {
+  background-color: #0a0a0a;
+  background-image:
+    linear-gradient(var(--grid-color) 2px, transparent 2px),
+    linear-gradient(90deg, var(--grid-color) 2px, transparent 2px),
+    linear-gradient(rgba(217, 70, 239, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(217, 70, 239, 0.05) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+}
+.theme-glossary {
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 25px 25px;
+  background-position: -1px -1px;
+}
 
-/* 5. Floating Symbols (for any theme) */
+/* Floating Symbols */
 .floating-symbol {
   position: absolute;
   pointer-events: none;
@@ -88,66 +200,37 @@
   color: var(--topic-symbol-color);
 }
 
-/* 5. Natural Science Theme */
-.theme-natural-science {
-  --grid-color: rgba(34, 197, 94, 0.08); /* green-500 */
-  background-image:
-    linear-gradient(var(--grid-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-  background-size: 30px 30px;
-  background-position: -1px -1px;
+/* Animated Blobs */
+.animated-blob {
+  position: absolute;
+  z-index: -10;
+  border-radius: 9999px;
+  filter: blur(50px);
+  mix-blend-mode: overlay;
+  will-change: transform, opacity;
 }
 
-/* 6. Social Science Theme */
-.theme-social-science {
-  --grid-dot-color: rgba(239, 68, 68, 0.1); /* red-500 */
-  background-image: radial-gradient(var(--grid-dot-color) 1px, transparent 1px);
-  background-size: 15px 15px;
+@keyframes animatedGrid {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 50px 50px, 50px 50px; }
 }
-
-/* 7. Applied Science Theme */
-.theme-applied-science {
-  --grid-color: rgba(59, 130, 246, 0.1); /* blue-500 */
-  background-image:
-    linear-gradient(var(--grid-color) 1.5px, transparent 1.5px),
-    linear-gradient(90deg, var(--grid-color) 1.5px, transparent 1.5px);
-  background-size: 60px 60px;
-  background-position: -1.5px -1.5px;
+@keyframes floatAround {
+  0%, 100% { transform: translate(0, 0); opacity: 0.15; }
+  25% { transform: translate(-15px, -20px); opacity: 0.3; }
+  50% { transform: translate(20px, 10px); opacity: 0.2; }
+  75% { transform: translate(-10px, 15px); opacity: 0.3; }
 }
-
-/* 8. Humanities Theme */
-.theme-humanities {
-  --grid-color: rgba(249, 115, 22, 0.1); /* orange-500 */
-  background-color: #1a1a1a;
-  background-image:
-    linear-gradient(135deg, var(--grid-color) 25%, transparent 25%),
-    linear-gradient(225deg, var(--grid-color) 25%, transparent 25%),
-    linear-gradient(45deg, var(--grid-color) 25%, transparent 25%),
-    linear-gradient(315deg, var(--grid-color) 25%, #1a1a1a 25%);
-  background-position: 10px 0, 10px 0, 0 0, 0 0;
-  background-size: 20px 20px;
-  background-repeat: repeat;
+@keyframes blob-float-1 {
+  0% { transform: translate(0px, 0px) scale(1); opacity: 0.25; }
+  25% { transform: translate(15vw, -20vh) scale(1.1); opacity: 0.35; }
+  50% { transform: translate(-20vw, 15vh) scale(0.95); opacity: 0.2; }
+  75% { transform: translate(10vw, 10vh) scale(1.05); opacity: 0.3; }
+  100% { transform: translate(0px, 0px) scale(1); opacity: 0.25; }
 }
-
-/* 9. Interdisciplines Theme */
-.theme-interdisciplines {
-  --grid-color: rgba(217, 70, 239, 0.07); /* fuchsia-500 */
-  background-color: #0a0a0a;
-  background-image:
-    linear-gradient(var(--grid-color) 2px, transparent 2px),
-    linear-gradient(90deg, var(--grid-color) 2px, transparent 2px),
-    linear-gradient(rgba(217, 70, 239, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(217, 70, 239, 0.05) 1px, transparent 1px);
-  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
-  background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
-}
-
-/* 10. Glossary Theme */
-.theme-glossary {
-  --grid-color: rgba(107, 114, 128, 0.1); /* gray-500 */
-  background-image:
-    linear-gradient(var(--grid-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-  background-size: 25px 25px;
-  background-position: -1px -1px;
+@keyframes blob-float-2 {
+  0% { transform: translate(-5vw, -5vh) scale(1.1); opacity: 0.2; }
+  25% { transform: translate(-20vw, 15vh) scale(1.1); opacity: 0.35; }
+  30% { transform: translate(10vw, 10vh) scale(0.9); opacity: 0.28; }
+  60% { transform: translate(-12vw, 20vh) scale(1.08); opacity: 0.32; }
+  100% { transform: translate(-5vw, -5vh) scale(1.1); opacity: 0.2; }
 }
