@@ -1,46 +1,38 @@
 "use client";
-
-import { motion } from "framer-motion";
-import { itemVariants } from "@/app/components/AnimatedText";
+import { motion, AnimatePresence } from "framer-motion";
+import { AnimatedMath } from "@/app/components/AnimatedMath";
 
 interface LessonProps {
   currentStep: number;
 }
 
-/**
- * A new lesson component. It also accepts 'currentStep'
- * and will show/hide its elements based on that prop.
- */
-export default function GeometryExample({ currentStep }: LessonProps) {
-  return (
-    <motion.div
-      key="geometry-example"
-      initial="hidden"
-      className="flex h-full w-full flex-col items-center justify-center gap-6"
-    >
-      <motion.h2
-        variants={itemVariants}
-        animate={currentStep >= 0 ? "visible" : "hidden"}
-        className="text-6xl font-bold text-cyan-300"
-      >
-        Area of a Circle
-      </motion.h2>
+// Define the steps using LaTeX
+const steps = [
+  "Area of a Circle", // Step 0 (Title)
+  "A = \\pi r^2",      // Step 1 (Formula)
+  "A = \\pi (5)^2",   // Step 2 (Substitution)
+  "A = 25\\pi"        // Step 3 (Final Answer)
+];
 
-      <motion.p
-        variants={itemVariants}
-        animate={currentStep >= 1 ? "visible" : "hidden"}
-        className="text-5xl text-neutral-200"
-      >
-        A = πr²
-      </motion.p>
-      
-      <motion.p
-        variants={itemVariants}
-        animate={currentStep >= 2 ? "visible" : "hidden"}
-        className="text-5xl text-neutral-200"
-      >
-        (Area = pi * radius squared)
-      </motion.p>
-    </motion.div>
+export default function GeometryExample({ currentStep }: LessonProps) {
+  // Get the current string, or the last one
+  const currentLatex = steps[currentStep] || steps[steps.length - 1];
+
+  return (
+    <div className="flex h-full w-full flex-col items-center justify-center gap-6 text-6xl">
+      <AnimatePresence mode="wait">
+        <AnimatedMath
+          key={currentLatex}
+          latex={currentLatex}
+          className={
+            currentStep === 0 
+              ? "text-5xl text-neutral-200" // Title style
+              : currentStep >= steps.length - 1
+                ? "text-green-300" // Final step
+                : "text-cyan-300"   // In-progress
+          }
+        />
+      </AnimatePresence>
+    </div>
   );
 }
