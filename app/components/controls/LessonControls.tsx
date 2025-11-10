@@ -19,10 +19,8 @@ export function LessonControls({ activeLessonId, onSelectLesson }: LessonControl
             {...buttonHoverTap}
             key={id}
             onClick={() => onSelectLesson(id)}
-            className={`rounded-md px-3 py-2 text-left text-sm font-medium transition-colors
-              ${activeLessonId === id
-                ? "bg-cyan-500/20 text-cyan-300"
-                : "bg-neutral-800/50 text-neutral-300 hover:bg-neutral-700/50"
+            className={`btn-glass text-left
+              ${activeLessonId === id ? "btn-glass-active" : ""
               }`}
           >
             {lessons[id].name}

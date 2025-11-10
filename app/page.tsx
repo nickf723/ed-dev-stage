@@ -7,7 +7,6 @@ import { Controls } from "@/app/components/Controls";
 import { lessons, lessonIds } from "@/app/animations/lesson-manifest";
 import { useTilt } from "@/app/hooks/useTilt";
 
-// Define our background presets
 const themes = [
   { id: "theme-default", name: "Default Dark" },
   { id: "theme-formal-science", name: "Formal Science Grid" },
@@ -21,30 +20,22 @@ const themes = [
   { id: "theme-glossary", name: "Glossary Grid" },
 ];
 
-// Define aspect ratios
 const ratios = [
   { id: "shorts", name: "Shorts (9:16)", aspect: "aspect-[9/16]" },
   { id: "standard", name: "Video (16:9)", aspect: "aspect-video" },
 ];
 
 export default function VideoStagePage() {
-  // --- All state lives in the top-level controller ---
   const [activeTheme, setActiveTheme] = useState(themes[0].id);
   const [activeRatio, setActiveRatio] = useState(ratios[0]);
   const [showSymbols, setShowSymbols] = useState(true);
   const [activeLessonId, setActiveLessonId] = useState(lessonIds[0]);
   const [currentStep, setCurrentStep] = useState(0);
 
-  // Get the full lesson object
   const activeLesson = lessons[activeLessonId];
-
-  // --- Apply the 3D tilt hook ---
   const stageRef = useTilt<HTMLDivElement>();
-  const controlsRef = useTilt<HTMLDivElement>();
 
-  // --- All event handlers live here ---
   const nextStep = () => {
-    // Only advance if not at the end
     if (currentStep < activeLesson.steps.length - 1) {
       setCurrentStep((s) => s + 1);
     }
@@ -56,7 +47,7 @@ export default function VideoStagePage() {
   
   const selectLesson = (lessonId: string) => {
     setActiveLessonId(lessonId);
-    setCurrentStep(0); // Reset step count on lesson change
+    setCurrentStep(0);
   };
 
   return (
@@ -73,40 +64,40 @@ export default function VideoStagePage() {
                    animate-blob-medium bg-[var(--topic-blob-2)]"
       />
       
-      {/* SECTION 1: THE STAGE */}
+      {/* --- 1. UPDATED STAGE WRAPPER --- */}
+      {/* This outer div grows to fill the space */}
       <motion.div 
-        ref={stageRef}
-        className={`relative flex-1 ${activeRatio.aspect} max-h-[90vh]`}
-        initial={{ x: -50, opacity: 0 }} // Start off-screen left and invisible
-        animate={{ x: 0, opacity: 1 }}     // Animate to final position
+        className="relative flex-1 h-full max-h-[90vh] flex items-center justify-center"
+        initial={{ x: -50, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
       >
-        <Stage
-          lesson={activeLesson}
-          currentStep={currentStep}
-          activeTheme={activeTheme}
-          showSymbols={showSymbols}
-        />
+        {/* This inner div holds the aspect ratio and the tilt */}
+        <div ref={stageRef} className={`relative w-full h-full ${activeRatio.aspect} max-h-full max-w-full`}>
+          <Stage
+            lesson={activeLesson}
+            currentStep={currentStep}
+            activeTheme={activeTheme}
+            showSymbols={showSymbols}
+          />
+        </div>
       </motion.div>
 
-      {/* SECTION 2: THE CONTROLS */}
+      {/* --- 2. UPDATED CONTROLS WRAPPER --- */}
+      {/* We add flex-shrink-0 to prevent it from shrinking */}
       <motion.div 
-        ref={controlsRef}
-        className="h-full max-h-[90vh]"
-        initial={{ x: 50, opacity: 0 }} // Start off-screen right and invisible
-        animate={{ x: 0, opacity: 1 }}     // Animate to final position
+        className="h-full max-h-[90vh] flex-shrink-0"
+        initial={{ x: 50, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
       >
         <Controls
-          // Pass all state down
           activeLessonId={activeLessonId}
           activeTheme={activeTheme}
           activeRatio={activeRatio}
           showSymbols={showSymbols}
           themes={themes}
           ratios={ratios}
-          
-          // Pass all handlers down
           onNext={nextStep}
           onReset={resetAnimation}
           onSelectLesson={selectLesson}

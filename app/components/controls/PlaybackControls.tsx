@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import { RefreshCw, ChevronsRight } from "lucide-react";
 import { buttonHoverTap } from "./buttonHoverTap";
-import { ControlGroup } from "./ControlGroup"
+import { ControlGroup } from "./ControlGroup";
 
 interface PlaybackControlsProps {
   onReset: () => void;
@@ -16,8 +16,7 @@ export function PlaybackControls({ onReset, onNext }: PlaybackControlsProps) {
         <motion.button
           {...buttonHoverTap}
           onClick={onReset}
-          className="flex w-full items-center justify-center gap-2 rounded-md bg-neutral-700 
-                     px-3 py-2 text-sm font-medium text-neutral-100 transition-colors hover:bg-neutral-600"
+          className="btn-glass flex w-full items-center justify-center gap-2"
         >
           <RefreshCw size={14} />
           Reset
@@ -25,8 +24,7 @@ export function PlaybackControls({ onReset, onNext }: PlaybackControlsProps) {
         <motion.button
           {...buttonHoverTap}
           onClick={onNext}
-          className="flex w-full items-center justify-center gap-2 rounded-md bg-cyan-600 
-                     px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-cyan-500 animate-pulse-subtle"
+          className="btn-glass-next flex w-full items-center justify-center gap-2"
         >
           <ChevronsRight size={14} />
           Next Step

@@ -102,6 +102,34 @@
     box-shadow: 0 0 25px rgba(0, 255, 255, 0.05);
   }
 
+  .btn-glass {
+    @apply glass rounded-lg border border-transparent px-3 py-2 text-sm font-medium text-neutral-300 transition-all duration-200;
+    /* Use a slightly different glass for buttons */
+    background: rgba(40, 40, 40, 0.3);
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .btn-glass:hover {
+    background: rgba(50, 50, 50, 0.5);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Style for selected/active buttons */
+  .btn-glass-active {
+    @apply text-cyan-300;
+    background: rgba(18, 116, 134, 0.2);
+    border-color: rgba(34, 211, 238, 0.2);
+  }
+
+  /* Special style for the "Next" button */
+  .btn-glass-next {
+    @apply glass rounded-lg border border-transparent bg-cyan-600/50 px-3 py-2 text-sm font-medium text-white transition-all duration-200 animate-pulse-subtle;
+    border-color: rgba(34, 211, 238, 0.2);
+  }
+  .btn-glass-next:hover {
+    @apply bg-cyan-500/60;
+  }
+
   /* Gradient Text */
   .gradient-text {
     background: linear-gradient(90deg, var(--color-text-title), var(--color-text-header));

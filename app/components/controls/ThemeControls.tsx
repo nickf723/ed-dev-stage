@@ -31,11 +31,9 @@ export function ThemeControls({
               {...buttonHoverTap}
               key={ratio.id}
               onClick={() => onSelectRatio(ratio)}
-              className={`rounded-md px-3 py-2 text-sm font-medium transition-colors
-                ${activeRatio.id === ratio.id
-                  ? "bg-cyan-500/20 text-cyan-300"
-                  : "bg-neutral-800/50 text-neutral-300 hover:bg-neutral-700/50"
-                }`}
+              className={`btn-glass
+                ${activeRatio.id === ratio.id ? "btn-glass-active" : ""}
+              `}
             >
               {ratio.name}
             </motion.button>
@@ -50,11 +48,9 @@ export function ThemeControls({
               {...buttonHoverTap}
               key={theme.id}
               onClick={() => onSelectTheme(theme.id)}
-              className={`rounded-md px-3 py-2 text-left text-sm font-medium transition-colors
-                ${theme.id === activeTheme
-                  ? "bg-cyan-500/20 text-cyan-300"
-                  : "bg-neutral-800/50 text-neutral-300 hover:bg-neutral-700/50"
-                }`}
+              className={`btn-glass text-left
+                ${theme.id === activeTheme ? "btn-glass-active" : ""}
+              `}
             >
               {theme.name}
             </motion.button>
@@ -66,11 +62,9 @@ export function ThemeControls({
         <motion.button
           {...buttonHoverTap}
           onClick={onToggleSymbols}
-          className={`w-full rounded-md px-3 py-2 text-left text-sm font-medium transition-colors
-            ${showSymbols
-              ? "bg-cyan-500/20 text-cyan-300"
-              : "bg-neutral-800/50 text-neutral-300 hover:bg-neutral-700/50"
-            }`}
+          className={`btn-glass w-full text-left
+            ${showSymbols ? "btn-glass-active" : ""}
+          `}
         >
           {showSymbols ? "Hide" : "Show"} Floating Symbols
         </motion.button>
