@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { MBlock } from "./Math";
-import { LessonStep } from "@/app/animations/lesson-manifest";
+import { type LessonStep } from "@/app/animations/lesson-manifest";
 
 // Universal variants for any step
 const stepVariants: Variants = {
