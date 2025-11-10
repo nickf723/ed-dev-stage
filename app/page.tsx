@@ -2,9 +2,35 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-// Import your new animation and the replay icon
+// Import your lessons
 import AlgebraExample from "@/app/animations/AlgebraExample";
-import { Monitor, Paintbrush, Smartphone, Sparkles, RefreshCw } from "lucide-react";
+import GeometryExample from "@/app/animations/GeometryExample";
+import { 
+  Monitor, 
+  Paintbrush, 
+  Smartphone, 
+  Sparkles, 
+  RefreshCw,
+  ChevronsRight, // For "Next Step"
+  BookOpen // For "Lessons"
+} from "lucide-react";
+
+const mathSymbols = ["+", "-", "x", "y", "z"]
+
+// --- 1. Create a "Lesson Manifest" ---
+// This maps a simple ID to your lesson components
+const lessons = {
+  "algebra-1": {
+    name: "Algebra: Solving for X",
+    component: AlgebraExample,
+  },
+  "geometry-1": {
+    name: "Geometry: Circle Area",
+    component: GeometryExample,
+  },
+};
+// Get an array of the lesson keys: ["algebra-1", "geometry-1"]
+const lessonIds = Object.keys(lessons);
 
 // Define our background presets
 const themes = [
@@ -25,17 +51,27 @@ export default function VideoStagePage() {
   const [activeRatio, setActiveRatio] = useState(ratios[0]);
   const [showSymbols, setShowSymbols] = useState(true);
   
-  // We'll use this key to force React to re-render the animation
-  const [animationKey, setAnimationKey] = useState(0);
+  // --- 2. New State for Lesson Switching and Stepping ---
+  const [activeLessonId, setActiveLessonId] = useState(lessonIds[0]);
+  const [currentStep, setCurrentStep] = useState(0);
 
-  // Your math symbols
-  const mathSymbols = [
-    "x", "y", "ƒ(x)", "a+b", "π", "∞", "√", "∑", "Δ", "θ", "∫",
-  ];
+  // --- 3. Get the component to render ---
+  const ActiveLesson = lessons[activeLessonId].component;
 
-  const replayAnimation = () => {
-    setAnimationKey((prevKey) => prevKey + 1);
+  // --- 4. New Playback Control Functions ---
+  const nextStep = () => {
+    setCurrentStep((s) => s + 1);
   };
+
+  const resetAnimation = () => {
+    setCurrentStep(0);
+  };
+  
+  // When we switch lessons, also reset the steps
+  const selectLesson = (lessonId: string) => {
+    setActiveLessonId(lessonId);
+    setCurrentStep(0);
+  }
 
   return (
     <main className="flex h-screen w-full items-center justify-center gap-8 p-8">
@@ -71,8 +107,9 @@ export default function VideoStagePage() {
 
           {/* ↓↓↓ YOUR ANIMATION GOES HERE ↓↓↓ */}
           
-          {/* Render your new Algebra lesson, passing the key */}
-          <AlgebraExample key={animationKey} />
+          {/* --- 5. Render the Active Lesson Dynamically --- */}
+          {/* We pass the currentStep as a prop */}
+          <ActiveLesson currentStep={currentStep} />
 
           {/* ↑↑↑ YOUR ANIMATION GOES HERE ↑↑↑ */}
 
@@ -85,18 +122,47 @@ export default function VideoStagePage() {
           Video Stage Controls
         </h2>
         
-        {/* --- NEW: Playback Control --- */}
-        <ControlGroup title="Playback" icon={RefreshCw}>
-          <button
-            onClick={replayAnimation}
-            className={`flex w-full items-center justify-center gap-2 rounded-md bg-cyan-600 px-3 py-2 
-                        text-sm font-medium text-white transition-colors hover:bg-cyan-500`}
-          >
-            <RefreshCw size={14} />
-            Replay Animation
-          </button>
+        {/* --- 6. Updated Playback Controls --- */}
+        <ControlGroup title="Playback" icon={ChevronsRight}>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={resetAnimation}
+              className={`flex w-full items-center justify-center gap-2 rounded-md bg-neutral-700 
+                          px-3 py-2 text-sm font-medium text-neutral-100 transition-colors hover:bg-neutral-600`}
+            >
+              <RefreshCw size={14} />
+              Reset
+            </button>
+            <button
+              onClick={nextStep}
+              className={`flex w-full items-center justify-center gap-2 rounded-md bg-cyan-600 
+                          px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-cyan-500`}
+            >
+              <ChevronsRight size={14} />
+              Next Step
+            </button>
+          </div>
         </ControlGroup>
         
+        {/* --- 7. New Lesson Switcher --- */}
+        <ControlGroup title="Lessons" icon={BookOpen}>
+          <div className="flex flex-col gap-2">
+            {lessonIds.map((id) => (
+              <button
+                key={id}
+                onClick={() => selectLesson(id)}
+                className={`rounded-md px-3 py-2 text-left text-sm font-medium transition-colors
+                  ${activeLessonId === id
+                    ? "bg-cyan-500/20 text-cyan-300"
+                    : "bg-neutral-800/50 text-neutral-300 hover:bg-neutral-700/50"
+                  }`}
+              >
+                {lessons[id].name}
+              </button>
+            ))}
+          </div>
+        </ControlGroup>
+
         {/* Aspect Ratio Controls */}
         <ControlGroup title="Aspect Ratio" icon={Smartphone}>
           <div className="grid grid-cols-2 gap-2">

@@ -1,72 +1,71 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { AnimatedText, itemVariants } from "@/app/components/AnimatedText";
 
-/**
- * This is the "container" animation.
- * It doesn't animate itself, but it orchestrates
- * the animation of its children using 'staggerChildren'.
- *
- * This variant means: "When I become 'visible',
- * wait 0.5s, then make each of my children
- * 'visible' one by one, 1.2s apart."
- */
-const containerVariants: Variants = {
-  hidden: {
-    opacity: 0,
-  },
-  visible: {
-    opacity: 1,
-    transition: {
-      delayChildren: 0.5,       // Wait 0.5s before starting
-      staggerChildren: 1.2,     // 1.2s delay between each child
-    },
-  },
-};
+interface LessonProps {
+  currentStep: number;
+}
 
 /**
- * This is your first "coded animation" lesson component.
- * It will be rendered inside the "stage" on the main page.
+ * Updated to accept a 'currentStep' prop.
+ * We've removed the 'containerVariants' and 'staggerChildren'.
+ * Now, each element animates based on the 'currentStep' number.
  */
-export default function AlgebraExample() {
+export default function AlgebraExample({ currentStep }: LessonProps) {
   return (
     <motion.div
       key="algebra-example" // A unique key helps Framer Motion
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
+      initial="hidden" // Still hidden by default
       className="flex h-full w-full flex-col items-center justify-center gap-6"
     >
-      {/* Title */}
+      {/* Title (Step 0) */}
       <motion.h2
-        variants={itemVariants} // Use the same variants as AnimatedText
+        variants={itemVariants}
+        animate={currentStep >= 0 ? "visible" : "hidden"} // Animate on step 0
         className="text-6xl font-bold text-cyan-300"
       >
         3x + 2 = 11
       </motion.h2>
 
       {/* Step 1 */}
-      <AnimatedText
-        text="3x = 11 - 2"
-        className="text-5xl text-neutral-200"
-      />
-
-      {/* Step 2 */}
-      <AnimatedText
-        text="3x = 9"
-        className="text-5xl text-neutral-200"
-      />
-
-      {/* Step 3 */}
-      <AnimatedText
-        text="x = 9 / 3"
-        className="text-5xl text-neutral-200"
-      />
-
-      {/* Final Answer */}
+      {/* We wrap AnimatedText in a motion.div to control its state */}
       <motion.div
         variants={itemVariants}
+        animate={currentStep >= 1 ? "visible" : "hidden"} // Animate on step 1
+      >
+        <AnimatedText
+          text="3x = 11 - 2"
+          className="text-5xl text-neutral-200"
+        />
+      </motion.div>
+
+      {/* Step 2 */}
+      <motion.div
+        variants={itemVariants}
+        animate={currentStep >= 2 ? "visible" : "hidden"} // Animate on step 2
+      >
+        <AnimatedText
+          text="3x = 9"
+          className="text-5xl text-neutral-200"
+        />
+      </motion.div>
+
+      {/* Step 3 */}
+      <motion.div
+        variants={itemVariants}
+        animate={currentStep >= 3 ? "visible" : "hidden"} // Animate on step 3
+      >
+        <AnimatedText
+          text="x = 9 / 3"
+          className="text-5xl text-neutral-200"
+        />
+      </motion.div>
+
+      {/* Final Answer (Step 4) */}
+      <motion.div
+        variants={itemVariants}
+        animate={currentStep >= 4 ? "visible" : "hidden"} // Animate on step 4
         className="mt-4 rounded-lg bg-green-500/20 px-6 py-3"
       >
         <p className="text-6xl font-bold text-green-300">x = 3</p>
