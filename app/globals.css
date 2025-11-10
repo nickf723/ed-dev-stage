@@ -88,8 +88,6 @@
   color: var(--topic-symbol-color);
 }
 
-/* --- PASTE THESE INTO app/globals.css --- */
-
 /* 5. Natural Science Theme */
 .theme-natural-science {
   --grid-color: rgba(34, 197, 94, 0.08); /* green-500 */

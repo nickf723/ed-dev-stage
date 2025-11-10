@@ -21,7 +21,7 @@ const allLessons: Lesson[] = [
   {
     id: "algebra-1",
     name: "Algebra: Solving for X",
-    component: AlgebraExample, // The component that renders the steps
+    component: AlgebraExample,
     steps: [
       { type: "math", content: "3x + 2 = 11", className: "text-cyan-300" },
       { type: "text", content: "Subtract 2 from both sides:", className: "text-2xl text-neutral-200" },
