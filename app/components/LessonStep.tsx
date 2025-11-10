@@ -1,63 +1,49 @@
 "use client";
 
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { MBlock } from "./Math";
-// Fix: Import 'LessonStep' as a 'type' to resolve the conflict
 import { type LessonStep } from "@/app/animations/lesson-manifest";
 
 // Universal variants for any step
 const stepVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 15,
-    transition: { duration: 0.3, ease: "easeIn" },
-  },
+  // We only need initial and animate now
+  // 'exit' will be handled by the parent
+  hidden: { opacity: 0, y: 15 },
   visible: {
     opacity: 1,
     y: 0,
     transition: { duration: 0.4, ease: "easeOut" },
   },
-  exit: {
-    opacity: 0,
-    y: -15,
-    transition: { duration: 0.3, ease: "easeIn" },
-  },
 };
 
 /**
- * A "smart" component that renders the correct animation
- * based on the step's 'type' from the manifest.
+ * A "smart" component that renders the correct
+ * content based on the step's 'type'.
+ * Animation is now controlled by the parent.
  */
-export function LessonStep({ step }: { step?: LessonStep }) {
-  if (!step) {
-    return null; // Don't render anything if no step is provided
-  }
-
-  // Use AnimatePresence to handle the fade-in/out
-  // The 'key' is crucial for AnimatePresence to detect changes
+export function LessonStep({ step }: { step: LessonStep }) {
+  // We wrap this in a motion.div so AnimatePresence can track it
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={step.content} // Change the key to trigger animation
-        variants={stepVariants}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        className="flex h-full w-full flex-col items-center justify-center"
-      >
-        {/* Switch based on the step type */}
-        {step.type === "math" ? (
-          // Math steps
-          <div className={`text-6xl ${step.className || "text-cyan-300"}`}>
-            <MBlock>{step.content}</MBlock>
-          </div>
-        ) : (
-          // Text steps
-          <p className={`gradient-text text-center ${step.className || "text-4xl"}`}>
-            {step.content}
-          </p>
-        )}
-      </motion.div>
-    </AnimatePresence>
+    <motion.div
+      layout // Helps animate position changes smoothly
+      variants={stepVariants}
+      initial="hidden"
+      animate="visible"
+      exit="hidden" // We can just use the 'hidden' variant for exit
+      className="flex w-full flex-col items-center justify-center"
+    >
+      {/* Switch based on the step type */}
+      {step.type === "math" ? (
+        // Math steps
+        <div className={`text-6xl ${step.className || "text-cyan-300"}`}>
+          <MBlock>{step.content}</MBlock>
+        </div>
+      ) : (
+        // Text steps
+        <p className={`gradient-text text-center ${step.className || "text-4xl"}`}>
+          {step.content}
+        </p>
+      )}
+    </motion.div>
   );
 }
