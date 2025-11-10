@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-// 1. Import motion
 import { motion } from "framer-motion";
-import { Monitor, Paintbrush, Smartphone, Sparkles } from "lucide-react";
+// Import your new animation and the replay icon
+import AlgebraExample from "@/app/animations/AlgebraExample";
+import { Monitor, Paintbrush, Smartphone, Sparkles, RefreshCw } from "lucide-react";
 
 // Define our background presets
 const themes = [
@@ -23,11 +24,18 @@ export default function VideoStagePage() {
   const [activeTheme, setActiveTheme] = useState(themes[0].id);
   const [activeRatio, setActiveRatio] = useState(ratios[0]);
   const [showSymbols, setShowSymbols] = useState(true);
+  
+  // We'll use this key to force React to re-render the animation
+  const [animationKey, setAnimationKey] = useState(0);
 
   // Your math symbols
   const mathSymbols = [
     "x", "y", "ƒ(x)", "a+b", "π", "∞", "√", "∑", "Δ", "θ", "∫",
   ];
+
+  const replayAnimation = () => {
+    setAnimationKey((prevKey) => prevKey + 1);
+  };
 
   return (
     <main className="flex h-screen w-full items-center justify-center gap-8 p-8">
@@ -62,32 +70,10 @@ export default function VideoStagePage() {
           )}
 
           {/* ↓↓↓ YOUR ANIMATION GOES HERE ↓↓↓ */}
-          <div className="flex h-full items-center justify-center">
-            <div className="text-center">
-              
-              {/* 2. Changed to motion.h1 and added props */}
-              <motion.h1
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-5xl font-bold text-cyan-300"
-              >
-                Your Lesson Title
-              </motion.h1>
+          
+          {/* Render your new Algebra lesson, passing the key */}
+          <AlgebraExample key={animationKey} />
 
-              {/* 3. Changed to motion.p and added props */}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="mt-4 text-2xl text-neutral-200"
-              >
-                This is where your coded animation
-                <br />
-                or content will be displayed.
-              </motion.p>
-            </div>
-          </div>
           {/* ↑↑↑ YOUR ANIMATION GOES HERE ↑↑↑ */}
 
         </div>
@@ -98,6 +84,18 @@ export default function VideoStagePage() {
         <h2 className="text-lg font-bold text-cyan-300">
           Video Stage Controls
         </h2>
+        
+        {/* --- NEW: Playback Control --- */}
+        <ControlGroup title="Playback" icon={RefreshCw}>
+          <button
+            onClick={replayAnimation}
+            className={`flex w-full items-center justify-center gap-2 rounded-md bg-cyan-600 px-3 py-2 
+                        text-sm font-medium text-white transition-colors hover:bg-cyan-500`}
+          >
+            <RefreshCw size={14} />
+            Replay Animation
+          </button>
+        </ControlGroup>
         
         {/* Aspect Ratio Controls */}
         <ControlGroup title="Aspect Ratio" icon={Smartphone}>
