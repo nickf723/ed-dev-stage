@@ -87,3 +87,69 @@
   font-size: 3rem;
   color: var(--topic-symbol-color);
 }
+
+/* --- PASTE THESE INTO app/globals.css --- */
+
+/* 5. Natural Science Theme */
+.theme-natural-science {
+  --grid-color: rgba(34, 197, 94, 0.08); /* green-500 */
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 30px 30px;
+  background-position: -1px -1px;
+}
+
+/* 6. Social Science Theme */
+.theme-social-science {
+  --grid-dot-color: rgba(239, 68, 68, 0.1); /* red-500 */
+  background-image: radial-gradient(var(--grid-dot-color) 1px, transparent 1px);
+  background-size: 15px 15px;
+}
+
+/* 7. Applied Science Theme */
+.theme-applied-science {
+  --grid-color: rgba(59, 130, 246, 0.1); /* blue-500 */
+  background-image:
+    linear-gradient(var(--grid-color) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, var(--grid-color) 1.5px, transparent 1.5px);
+  background-size: 60px 60px;
+  background-position: -1.5px -1.5px;
+}
+
+/* 8. Humanities Theme */
+.theme-humanities {
+  --grid-color: rgba(249, 115, 22, 0.1); /* orange-500 */
+  background-color: #1a1a1a;
+  background-image:
+    linear-gradient(135deg, var(--grid-color) 25%, transparent 25%),
+    linear-gradient(225deg, var(--grid-color) 25%, transparent 25%),
+    linear-gradient(45deg, var(--grid-color) 25%, transparent 25%),
+    linear-gradient(315deg, var(--grid-color) 25%, #1a1a1a 25%);
+  background-position: 10px 0, 10px 0, 0 0, 0 0;
+  background-size: 20px 20px;
+  background-repeat: repeat;
+}
+
+/* 9. Interdisciplines Theme */
+.theme-interdisciplines {
+  --grid-color: rgba(217, 70, 239, 0.07); /* fuchsia-500 */
+  background-color: #0a0a0a;
+  background-image:
+    linear-gradient(var(--grid-color) 2px, transparent 2px),
+    linear-gradient(90deg, var(--grid-color) 2px, transparent 2px),
+    linear-gradient(rgba(217, 70, 239, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(217, 70, 239, 0.05) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+}
+
+/* 10. Glossary Theme */
+.theme-glossary {
+  --grid-color: rgba(107, 114, 128, 0.1); /* gray-500 */
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 25px 25px;
+  background-position: -1px -1px;
+}

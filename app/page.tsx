@@ -38,6 +38,12 @@ const themes = [
   { id: "theme-formal-science", name: "Formal Science Grid" },
   { id: "theme-algebra", name: "Algebra Grid" },
   { id: "theme-foundations", name: "Foundations Dots" },
+  { id: "theme-natural-science", name: "Natural Science Grid" },
+  { id: "theme-social-science", name: "Social Science Dots" },
+  { id: "theme-applied-science", name: "Applied Science Grid" },
+  { id: "theme-humanities", name: "Humanities Pattern" },
+  { id: "theme-interdisciplines", name: "Interdisciplines Grid" },
+  { id: "theme-glossary", name: "Glossary Grid" },
 ];
 
 // Define aspect ratios

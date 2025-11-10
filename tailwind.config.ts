@@ -1,11 +1,19 @@
+// Replace tailwind.config.ts with this:
+
 import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}", // Good to add this
   ],
   theme: {
     extend: {
+      // Add the fontFamily definitions
+      fontFamily: {
+        sans: ["var(--font-inter)", "sans-serif"],
+        mono: ["var(--font-fira-code)", "monospace"],
+      },
       keyframes: {
         animatedGrid: {
           from: { backgroundPosition: "0 0" },
