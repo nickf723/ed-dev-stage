@@ -1,5 +1,5 @@
 .stage-root {
-  background: radial-gradient(circle at 20% 20%, #0a0a14 0%, #000 100%);
+  background: #000;
   color: white;
   min-height: 100vh;
   display: flex;
@@ -17,8 +17,8 @@
   height: 100%;
 }
 
-/* Square frame for shorts */
-.stage-frame {
+.viewport-frame {
+  /* Copied from .stage-frame */
   aspect-ratio: 1 / 1;
   width: min(90vw, 90vh);
   border-radius: 2rem;
@@ -31,8 +31,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   overflow: hidden;
+
+  /* Kept from original .viewport-frame */
+  position: relative;
+  z-index: 2;
 }
 
 /* Placeholder content */
@@ -152,9 +155,4 @@
   color: #fff;
   cursor: pointer;
   transition: all 0.15s ease;
-}
-
-.viewport-frame {
-  position: relative;
-  z-index: 2;
 }
