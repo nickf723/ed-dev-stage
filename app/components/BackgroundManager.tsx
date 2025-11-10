@@ -1,24 +1,24 @@
-"use client";
-import { useEffect, useState } from "react";
-import "@/app/styles/backgrounds.css"; // make sure this points to your css
+// In app/components/BackgroundManager.tsx
 
-export type BackgroundType = "aurora" | "grid" | "stars" | "solid";
+"use client";
+import { useStage } from "./director/StageDirector"; // <-- Import useStage
+import "@/app/styles/backgrounds.css";
+
+// No need for BackgroundType, as the context provides the string
+// export type BackgroundType = "aurora" | "grid" | "stars" | "solid";
 
 export function BackgroundManager() {
-  const [activeBackground, setActiveBackground] = useState<BackgroundType>("aurora");
+  // Get the global backgroundMode from the context
+  const { backgroundMode } = useStage();
 
-  // Optional: listen for global background updates later (via context or event)
-  useEffect(() => {
-    const handleChange = (e: CustomEvent<BackgroundType>) => {
-      setActiveBackground(e.detail);
-    };
-    window.addEventListener("changeBackground", handleChange as EventListener);
-    return () => window.removeEventListener("changeBackground", handleChange as EventListener);
-  }, []);
+  // The local state and useEffect are no longer needed
+  // const [activeBackground, setActiveBackground] = useState<BackgroundType>("aurora");
+  // useEffect(() => { ... }, []);
 
   return (
     <div className="background-manager">
-      <div className={`background-layer bg-${activeBackground}`} />
+      {/* Use the backgroundMode from the context */}
+      <div className={`background-layer bg-${backgroundMode}`} />
     </div>
   );
 }

@@ -2,9 +2,6 @@
   background: #000;
   color: white;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
 }
 
@@ -52,16 +49,22 @@
   overflow: hidden;
   background: transparent !important;
   z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 /* Control Dock */
 .control-dock {
-  position: relative;
-  bottom: 0;
+  position: absolute;
+  bottom: 4rem;
+  left: 0;
+  transform: translateX(-50%);
   padding: 1rem 2rem;
-  background: rgba(20, 20, 35, 0.6);
+  background: rgba(170, 13, 2, 0.6);
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(156, 0, 0, 0.877);
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(20px);
   z-index: 3;
