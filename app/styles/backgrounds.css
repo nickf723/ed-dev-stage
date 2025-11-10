@@ -15,7 +15,7 @@
 
 /* --- 1. COLOR LAYER --- */
 .bg-color-default {
-  background: linear-gradient(120deg, #330066 0%, #000020 20%);
+  background: linear-gradient(120deg, #33006680 0%, #00002080 20%);
 }
 
 /* --- 2. PATTERN LAYER --- */
@@ -101,6 +101,15 @@ These classes are used by the BackgroundManager component
 }
 
 /* Animations */
+.animations-paused .bg-pattern-grid,
+.animations-paused .bg-particles-stars {
+  animation-play-state: paused;
+}
+
+.animations-paused .embellishment-light {
+  animation: none !important;
+}
+
 @keyframes gridMove {
   from {
     background-position: 0px 0px;

@@ -11,6 +11,7 @@ export interface BackgroundState {
   pattern: string;
   particles: string;
   decor: string;
+  animations: boolean;
 }
 
 export type StageInstruction =
@@ -55,6 +56,7 @@ const DEFAULT_BACKGROUND_STATE: BackgroundState = {
   pattern: "none",
   particles: "none",
   decor: "aurora",
+  animations: true,
 };
 
 export const StageDirector = ({ children }: { children: ReactNode }) => {

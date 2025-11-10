@@ -5,10 +5,10 @@ import "@/app/styles/backgrounds.css";
 
 export function BackgroundManager() {
   const { backgroundState } = useStage();
-  const { color, pattern, particles, decor } = backgroundState;
+  const { color, pattern, particles, decor, animations } = backgroundState;
 
   return (
-    <div className="background-manager">
+    <div className={`background-manager ${!animations ? "animations-paused" : ""}`}>
       {/* Layer 1: Base Color */}
       <div className={`background-layer bg-color-${color}`} />
 

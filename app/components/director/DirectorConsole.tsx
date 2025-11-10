@@ -106,6 +106,21 @@ export const DirectorConsole = () => {
             </div>
 
             <div className="console-section">
+              <h4>⏯️ Animation</h4>
+              <div className="console-buttons">
+                <button
+                  onClick={() =>
+                    handleCommand("updateBackground", {
+                      animations: !backgroundState.animations,
+                    })
+                  }
+                >
+                  {backgroundState.animations ? "Pause" : "Play"} Anim
+                </button>
+              </div>
+            </div>
+
+            <div className="console-section">
               <h4>📦 Spawn</h4>
               <div className="console-buttons">
                 <button
@@ -153,6 +168,10 @@ export const DirectorConsole = () => {
               </div>
               <div className="text-xs">
                 <span className="text-white/50">Decor:</span> {backgroundState.decor}
+              </div>
+              <div className="text-xs">
+                <span className="text-white/50">Anims:</span>{" "}
+                {backgroundState.animations ? "On" : "Off"}
               </div>
               <div className="text-xs">
                 <span className="text-white/50">Elements:</span> {elements.length}
