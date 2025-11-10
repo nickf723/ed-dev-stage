@@ -1,24 +1,48 @@
-// In app/components/BackgroundManager.tsx
-
 "use client";
-import { useStage } from "./director/StageDirector"; // <-- Import useStage
+import { useStage } from "./director/StageDirector";
+import { motion } from "framer-motion";
 import "@/app/styles/backgrounds.css";
 
-// No need for BackgroundType, as the context provides the string
-// export type BackgroundType = "aurora" | "grid" | "stars" | "solid";
-
 export function BackgroundManager() {
-  // Get the global backgroundMode from the context
-  const { backgroundMode } = useStage();
-
-  // The local state and useEffect are no longer needed
-  // const [activeBackground, setActiveBackground] = useState<BackgroundType>("aurora");
-  // useEffect(() => { ... }, []);
+  const { backgroundState } = useStage();
+  const { color, pattern, particles, decor } = backgroundState;
 
   return (
     <div className="background-manager">
-      {/* Use the backgroundMode from the context */}
-      <div className={`background-layer bg-${backgroundMode}`} />
+      {/* Layer 1: Base Color */}
+      <div className={`background-layer bg-color-${color}`} />
+
+      {/* Layer 2: Patterns */}
+      <div className={`background-layer bg-pattern-${pattern}`} />
+
+      {/* Layer 3: Particles */}
+      <div className={`background-layer bg-particles-${particles}`} />
+
+      {/* Layer 4: Decor (Embellishments) */}
+      <div className="embellishment-layer">
+        {decor === "aurora" && (
+          <>
+            <motion.div
+              className="embellishment-light"
+              animate={{
+                x: ["-5%", "5%", "-5%"],
+                y: ["5%", "-5%", "5%"],
+                opacity: [0.4, 0.6, 0.4],
+              }}
+              transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="embellishment-light reverse"
+              animate={{
+                x: ["5%", "-5%", "5%"],
+                y: ["-5%", "5%", "-5%"],
+                opacity: [0.5, 0.7, 0.5],
+              }}
+              transition={{ duration: 45, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 }

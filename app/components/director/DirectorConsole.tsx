@@ -1,32 +1,24 @@
 "use client";
-import { useStage } from "./StageDirector";
+import { useStage, BackgroundState } from "./StageDirector"; // Import new type
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const DirectorConsole = () => {
-  const { execute, backgroundMode, elements } = useStage();
+  // UPDATED: Read 'backgroundState' instead of 'backgroundMode'
+  const { execute, backgroundState, elements } = useStage();
   const [open, setOpen] = useState(true);
 
-  const handleCommand = (cmd: string) => {
-    switch (cmd) {
-      case "caption":
-        execute({ type: "spawn", component: "caption", props: { text: "Let's solve for x." } });
-        break;
-      case "shape":
-        execute({ type: "spawn", component: "shape", props: { color: "#51B93C" } });
-        break;
-      case "bg-aurora":
-        execute({ type: "setBackground", mode: "aurora" });
-        break;
-      case "bg-grid":
-        execute({ type: "setBackground", mode: "grid" });
-        break;
-      case "bg-stars":
-        execute({ type: "setBackground", mode: "stars" });
-        break;
-      case "clear":
-        execute({ type: "clear" });
-        break;
+  // UPDATED: Use the new 'updateBackground' instruction
+  const handleCommand = (
+    type: "spawn" | "clear" | "updateBackground",
+    payload: any
+  ) => {
+    if (type === "spawn") {
+      execute({ type: "spawn", ...payload });
+    } else if (type === "updateBackground") {
+      execute({ type: "updateBackground", props: payload });
+    } else if (type === "clear") {
+      execute({ type: "clear" });
     }
   };
 
@@ -52,36 +44,118 @@ export const DirectorConsole = () => {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
           >
+            {/* UPDATED: New modular controls */}
             <div className="console-section">
-              <h4>🎨 Backgrounds</h4>
+              <h4>🎨 Decor</h4>
               <div className="console-buttons">
-                <button onClick={() => handleCommand("bg-aurora")}>Aurora</button>
-                <button onClick={() => handleCommand("bg-grid")}>Grid</button>
-                <button onClick={() => handleCommand("bg-stars")}>Stars</button>
+                <button
+                  onClick={() =>
+                    handleCommand("updateBackground", { decor: "aurora" })
+                  }
+                >
+                  Aurora
+                </button>
+                <button
+                  onClick={() =>
+                    handleCommand("updateBackground", { decor: "none" })
+                  }
+                >
+                  None
+                </button>
+              </div>
+            </div>
+
+            <div className="console-section">
+              <h4>✨ Particles</h4>
+              <div className="console-buttons">
+                <button
+                  onClick={() =>
+                    handleCommand("updateBackground", { particles: "stars" })
+                  }
+                >
+                  Stars
+                </button>
+                <button
+                  onClick={() =>
+                    handleCommand("updateBackground", { particles: "none" })
+                  }
+                >
+                  None
+                </button>
+              </div>
+            </div>
+
+            <div className="console-section">
+              <h4>🌐 Pattern</h4>
+              <div className="console-buttons">
+                <button
+                  onClick={() =>
+                    handleCommand("updateBackground", { pattern: "grid" })
+                  }
+                >
+                  Grid
+                </button>
+                <button
+                  onClick={() =>
+                    handleCommand("updateBackground", { pattern: "none" })
+                  }
+                >
+                  None
+                </button>
               </div>
             </div>
 
             <div className="console-section">
               <h4>📦 Spawn</h4>
               <div className="console-buttons">
-                <button onClick={() => handleCommand("caption")}>+ Caption</button>
-                <button onClick={() => handleCommand("shape")}>+ Shape</button>
+                <button
+                  onClick={() =>
+                    handleCommand("spawn", {
+                      component: "caption",
+                      props: { text: "Let's solve for x." },
+                    })
+                  }
+                >
+                  + Caption
+                </button>
+                <button
+                  onClick={() =>
+                    handleCommand("spawn", {
+                      component: "shape",
+                      props: { color: "#51B93C" },
+                    })
+                  }
+                >
+                  + Shape
+                </button>
               </div>
             </div>
 
             <div className="console-section">
               <h4>🧹 Stage</h4>
               <div className="console-buttons">
-                <button onClick={() => handleCommand("clear")}>Clear</button>
+                <button onClick={() => handleCommand("clear", {})}>
+                  Clear All
+                </button>
               </div>
             </div>
 
+            {/* UPDATED: New status display */}
             <div className="console-status">
-              <div>
-                <span className="text-white/50">🎞 Background:</span> {backgroundMode}
+              <div className="text-xs">
+                <span className="text-white/50">Color:</span> {backgroundState.color}
               </div>
-              <div>
-                <span className="text-white/50">🎭 Elements:</span> {elements.length}
+              <div className="text-xs">
+                <span className="text-white/50">Pattern:</span> {backgroundState.pattern}
+              </div>
+              <div className="text-xs">
+                <span className="text-white/50">Particles:</span> {backgroundState.particles}
+              </div>
+              <div className="text-xs">
+                <span className="text-white/50">Decor:</span> {backgroundState.decor}
+              </div>
+              <div className="text-xs">
+                <span className="text-white/50">Elements:</span> {elements.length}
               </div>
             </div>
           </motion.div>

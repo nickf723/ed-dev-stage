@@ -1,15 +1,24 @@
 "use client";
-import React, { useState, useEffect, createContext, useContext, ReactNode } from "react";
+import React, { useState, createContext, useContext, ReactNode } from "react";
 
 // -------------------------------------------
 // Types
 // -------------------------------------------
 
+// NEW: Define the modular background state
+export interface BackgroundState {
+  color: string;
+  pattern: string;
+  particles: string;
+  decor: string;
+}
+
 export type StageInstruction =
   | { type: "spawn"; component: string; props: any }
   | { type: "update"; id: string; props: any }
   | { type: "remove"; id: string }
-  | { type: "setBackground"; mode: string }
+  // UPDATED: New instruction type for modular updates
+  | { type: "updateBackground"; props: Partial<BackgroundState> }
   | { type: "clear" };
 
 interface StageElement {
@@ -20,7 +29,8 @@ interface StageElement {
 
 interface StageContextType {
   elements: StageElement[];
-  backgroundMode: string;
+  // UPDATED: Expose the new state object
+  backgroundState: BackgroundState;
   execute: (instruction: StageInstruction) => void;
 }
 
@@ -39,22 +49,41 @@ export const useStage = () => {
 // StageDirector Component
 // -------------------------------------------
 
+// NEW: Define the default state
+const DEFAULT_BACKGROUND_STATE: BackgroundState = {
+  color: "default",
+  pattern: "none",
+  particles: "none",
+  decor: "aurora",
+};
+
 export const StageDirector = ({ children }: { children: ReactNode }) => {
   const [elements, setElements] = useState<StageElement[]>([]);
-  const [backgroundMode, setBackgroundMode] = useState("aurora");
+  // UPDATED: Use the new background state object
+  const [backgroundState, setBackgroundState] = useState<BackgroundState>(
+    DEFAULT_BACKGROUND_STATE
+  );
 
   const execute = (instruction: StageInstruction) => {
     switch (instruction.type) {
       case "spawn":
         setElements((prev) => [
           ...prev,
-          { id: crypto.randomUUID(), type: instruction.component, props: instruction.props },
+          {
+            id: crypto.randomUUID(),
+            type: instruction.component,
+            props: instruction.props,
+          },
         ]);
         break;
 
       case "update":
         setElements((prev) =>
-          prev.map((el) => (el.id === instruction.id ? { ...el, props: { ...el.props, ...instruction.props } } : el))
+          prev.map((el) =>
+            el.id === instruction.id
+              ? { ...el, props: { ...el.props, ...instruction.props } }
+              : el
+          )
         );
         break;
 
@@ -62,12 +91,15 @@ export const StageDirector = ({ children }: { children: ReactNode }) => {
         setElements((prev) => prev.filter((el) => el.id !== instruction.id));
         break;
 
-      case "setBackground":
-        setBackgroundMode(instruction.mode);
+      // UPDATED: Handle the new modular instruction
+      case "updateBackground":
+        setBackgroundState((prev) => ({ ...prev, ...instruction.props }));
         break;
 
       case "clear":
         setElements([]);
+        // UPDATED: Also reset background on clear
+        setBackgroundState(DEFAULT_BACKGROUND_STATE);
         break;
 
       default:
@@ -76,7 +108,10 @@ export const StageDirector = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <StageContext.Provider value={{ elements, backgroundMode, execute }}>
+    <StageContext.Provider
+      // UPDATED: Pass down the new state object
+      value={{ elements, backgroundState, execute }}
+    >
       {children}
     </StageContext.Provider>
   );
