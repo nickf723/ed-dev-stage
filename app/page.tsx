@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+// 1. Import motion
+import { motion } from "framer-motion";
 import { Monitor, Paintbrush, Smartphone, Sparkles } from "lucide-react";
 
 // Define our background presets
@@ -30,10 +32,7 @@ export default function VideoStagePage() {
   return (
     <main className="flex h-screen w-full items-center justify-center gap-8 p-8">
       
-      {/* SECTION 1: THE STAGE
-        This is the "main view frame" you'll record.
-        It's styled to be 9:16 for YouTube Shorts.
-      */}
+      {/* SECTION 1: THE STAGE */}
       <div className={`relative flex-1 ${activeRatio.aspect} max-h-[90vh]`}>
         <div
           id="video-stage"
@@ -62,32 +61,39 @@ export default function VideoStagePage() {
             </div>
           )}
 
-          {/* ↓↓↓ YOUR ANIMATION GOES HERE ↓↓↓
-            
-            This is where you'll render your actual lesson.
-            For example: <MyPythagoreanTheoremAnimation />
-          */}
+          {/* ↓↓↓ YOUR ANIMATION GOES HERE ↓↓↓ */}
           <div className="flex h-full items-center justify-center">
             <div className="text-center">
-              <h1 className="text-5xl font-bold text-cyan-300">
+              
+              {/* 2. Changed to motion.h1 and added props */}
+              <motion.h1
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-5xl font-bold text-cyan-300"
+              >
                 Your Lesson Title
-              </h1>
-              <p className="mt-4 text-2xl text-neutral-200">
+              </motion.h1>
+
+              {/* 3. Changed to motion.p and added props */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="mt-4 text-2xl text-neutral-200"
+              >
                 This is where your coded animation
                 <br />
                 or content will be displayed.
-              </p>
+              </motion.p>
             </div>
           </div>
-          {/* ↑↑↑ YOUR ANIMATION GOES HERE ↑↑↑
-          */}
+          {/* ↑↑↑ YOUR ANIMATION GOES HERE ↑↑↑ */}
 
         </div>
       </div>
 
-      {/* SECTION 2: THE CONTROLS
-        This is the "technical stuff" that stays out of frame.
-      */}
+      {/* SECTION 2: THE CONTROLS */}
       <aside className="glass w-96 flex-shrink-0 p-6">
         <h2 className="text-lg font-bold text-cyan-300">
           Video Stage Controls
