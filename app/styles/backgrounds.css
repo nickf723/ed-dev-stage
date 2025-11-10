@@ -1,0 +1,175 @@
+.background-manager {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+/* Shared styling */
+.background-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Aurora */
+.background-layer.bg-aurora {
+  background: radial-gradient(at 20% 30%, #ff00ff 0%, transparent 70%),
+              radial-gradient(at 80% 60%, #00ffff 0%, transparent 70%),
+              radial-gradient(at 40% 80%, #00ff80 0%, transparent 70%),
+              linear-gradient(120deg, #330066 0%, #000020 100%);
+  background-size: 200% 200%;
+  animation: auroraShift 30s ease-in-out infinite alternate;
+  opacity: 1 !important;
+  filter: brightness(1.2) saturate(1.5);
+}
+
+
+/* Grid */
+.background-layer.bg-grid {
+  background-color: #06060a;
+  background-image: repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.04) 0px,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px,
+      transparent 60px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 0px,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px,
+      transparent 60px
+    );
+  background-size: 60px 60px;
+  animation: gridMove 40s linear infinite;
+}
+
+/* Stars */
+.background-layer.bg-stars {
+  background: radial-gradient(circle at 20% 20%, #810efb22 0%, transparent 80%),
+              radial-gradient(circle at 70% 60%, #12b6f822 0%, transparent 80%),
+              #02020a;
+  background-blend-mode: screen;
+}
+
+.background-layer.bg-stars::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(2px 2px at 30% 40%, rgba(255,255,255,0.15), transparent),
+                    radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.1), transparent);
+  background-size: 100% 100%;
+  animation: starDrift 80s linear infinite;
+  opacity: 0.5;
+}
+
+/* Solid (simple gradient fallback) */
+.background-layer.bg-solid {
+  background: linear-gradient(135deg, #810efb, #12b6f8, #51b93c);
+}
+
+/* Animations */
+@keyframes auroraShift {
+  from { background-position: 0% 50%; }
+  to { background-position: 100% 50%; }
+}
+
+@keyframes auroraPulse {
+  0% { filter: brightness(1) saturate(1); }
+  50% { filter: brightness(1.15) saturate(1.2); }
+  100% { filter: brightness(1) saturate(1); }
+}
+
+@keyframes gridMove {
+  from { background-position: 0px 0px; }
+  to { background-position: 120px 120px; }
+}
+
+@keyframes starDrift {
+  from { transform: translateY(0); }
+  to { transform: translateY(-60px); }
+}
+
+
+/* TEMPORARY CONTROL PANEL */
+.bg-selector {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  z-index: 5;
+}
+
+.bg-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  color: #fff;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bg-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.bg-btn.active {
+  background: rgba(129, 14, 251, 0.35);
+  border-color: rgba(129, 14, 251, 0.5);
+}
+
+/* Embellishment */
+.embellishment-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 0;
+}
+
+.embellishment-light {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  width: 40vw;
+  height: 40vw;
+  background: radial-gradient(circle, rgba(129, 14, 251, 0.15) 0%, transparent 70%);
+  filter: blur(120px);
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.embellishment-light.reverse {
+  top: 60%;
+  left: 60%;
+  background: radial-gradient(circle, rgba(18, 182, 248, 0.15) 0%, transparent 70%);
+}
+
+.embellishment-lines {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,0.04) 0px,
+    rgba(255,255,255,0.04) 1px,
+    transparent 1px,
+    transparent 60px
+  ),
+  repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0px,
+    rgba(255,255,255,0.04) 1px,
+    transparent 1px,
+    transparent 60px
+  );
+  background-size: 60px 60px;
+  opacity: 0.2;
+}

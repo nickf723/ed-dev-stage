@@ -1,33 +1,16 @@
-import "./globals.css";
-import type { Metadata } from "next";
-import { Inter, Fira_Code } from "next/font/google";
-import "katex/dist/katex.min.css"; // Import KaTeX styles
+import "./styles/stage.css";
+import "./styles/globals.css";
+import { ReactNode } from "react";
 
-// Setup the fonts
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
-
-const firaCode = Fira_Code({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-fira-code",
-});
-
-export const metadata: Metadata = {
-  title: "Ed Dev Video Stage",
-  description: "Recording stage for lesson videos.",
+export const metadata = {
+  title: "Ed-Dev Stage",
+  description: "Recording stage for educational shorts",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${firaCode.variable}`}>
-      <body>{children}</body>
+    <html lang="en">
+      <body className="stage-root">{children}</body>
     </html>
   );
 }
