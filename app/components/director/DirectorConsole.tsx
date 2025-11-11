@@ -1,14 +1,25 @@
 "use client";
-import { useStage, BackgroundState } from "./StageDirector"; // Import new type
-import { useState } from "react";
+import { useStage, BackgroundState } from "./StageDirector";
+// Import useState and ChangeEvent for our new inputs
+import { useState, ChangeEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+// --- NEW: Define our color palette ---
+const PALETTE = {
+  purple: "#810EFB",
+  blue: "#12B6F8",
+  green: "#51B93C",
+  white: "#FFFFFF",
+};
+
 export const DirectorConsole = () => {
-  // UPDATED: Read 'backgroundState' instead of 'backgroundMode'
   const { execute, backgroundState, elements } = useStage();
   const [open, setOpen] = useState(true);
 
-  // UPDATED: Use the new 'updateBackground' instruction
+  // --- NEW: Local state for spawn properties ---
+  const [spawnColor, setSpawnColor] = useState(PALETTE.purple);
+  const [spawnText, setSpawnText] = useState("Hello, world!");
+
   const handleCommand = (
     type: "spawn" | "clear" | "updateBackground",
     payload: any
@@ -44,7 +55,25 @@ export const DirectorConsole = () => {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
           >
-            {/* UPDATED: New modular controls */}
+            {/* --- NEW: Color Palette Section --- */}
+            <div className="console-section">
+              <h4>🎨 Palette</h4>
+              <div className="color-palette">
+                {Object.entries(PALETTE).map(([name, color]) => (
+                  <button
+                    key={name}
+                    className={`color-swatch ${
+                      spawnColor === color ? "active" : ""
+                    }`}
+                    style={{ backgroundColor: color }}
+                    onClick={() => setSpawnColor(color)}
+                    title={name}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* --- Background sections are unchanged --- */}
             <div className="console-section">
               <h4>🎨 Decor</h4>
               <div className="console-buttons">
@@ -64,7 +93,6 @@ export const DirectorConsole = () => {
                 </button>
               </div>
             </div>
-
             <div className="console-section">
               <h4>✨ Particles</h4>
               <div className="console-buttons">
@@ -84,7 +112,6 @@ export const DirectorConsole = () => {
                 </button>
               </div>
             </div>
-
             <div className="console-section">
               <h4>🌐 Pattern</h4>
               <div className="console-buttons">
@@ -104,7 +131,6 @@ export const DirectorConsole = () => {
                 </button>
               </div>
             </div>
-
             <div className="console-section">
               <h4>⏯️ Animation</h4>
               <div className="console-buttons">
@@ -120,28 +146,44 @@ export const DirectorConsole = () => {
               </div>
             </div>
 
+            {/* --- UPDATED: Spawn Section --- */}
             <div className="console-section">
               <h4>📦 Spawn</h4>
-              <div className="console-buttons">
+              <div className="console-spawn-group">
+                {/* New text input */}
+                <input
+                  type="text"
+                  className="console-input"
+                  value={spawnText}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setSpawnText(e.target.value)
+                  }
+                />
+                {/* Updated button reads from state */}
                 <button
+                  className="console-spawn-button"
                   onClick={() =>
                     handleCommand("spawn", {
                       component: "caption",
-                      props: { text: "Let's solve for x." },
+                      props: { text: spawnText }, // Use state
                     })
                   }
                 >
                   + Caption
                 </button>
+              </div>
+              <div className="console-spawn-group">
+                {/* Updated button reads from state */}
                 <button
+                  className="console-spawn-button"
                   onClick={() =>
                     handleCommand("spawn", {
                       component: "shape",
-                      props: { color: "#51B93C" },
+                      props: { color: spawnColor }, // Use state
                     })
                   }
                 >
-                  + Shape
+                  + Shape (use palette)
                 </button>
               </div>
             </div>
@@ -155,26 +197,21 @@ export const DirectorConsole = () => {
               </div>
             </div>
 
-            {/* UPDATED: New status display */}
+            {/* --- UPDATED: Status Panel --- */}
             <div className="console-status">
-              <div className="text-xs">
-                <span className="text-white/50">Color:</span> {backgroundState.color}
-              </div>
-              <div className="text-xs">
-                <span className="text-white/50">Pattern:</span> {backgroundState.pattern}
-              </div>
-              <div className="text-xs">
-                <span className="text-white/50">Particles:</span> {backgroundState.particles}
-              </div>
-              <div className="text-xs">
-                <span className="text-white/50">Decor:</span> {backgroundState.decor}
-              </div>
-              <div className="text-xs">
-                <span className="text-white/50">Anims:</span>{" "}
-                {backgroundState.animations ? "On" : "Off"}
-              </div>
-              <div className="text-xs">
-                <span className="text-white/50">Elements:</span> {elements.length}
+              <div className="status-grid">
+                <span>Color:</span>
+                <span>{backgroundState.color}</span>
+                <span>Pattern:</span>
+                <span>{backgroundState.pattern}</span>
+                <span>Particles:</span>
+                <span>{backgroundState.particles}</span>
+                <span>Decor:</span>
+                <span>{backgroundState.decor}</span>
+                <span>Anims:</span>
+                <span>{backgroundState.animations ? "On" : "Off"}</span>
+                <span>Elements:</span>
+                <span>{elements.length}</span>
               </div>
             </div>
           </motion.div>

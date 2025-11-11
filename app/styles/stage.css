@@ -159,3 +159,88 @@
   cursor: pointer;
   transition: all 0.15s ease;
 }
+
+/* In app/styles/stage.css */
+
+/* --- Add these styles to the bottom of the file --- */
+
+/* New Console Input */
+.console-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  color: #fff;
+}
+.console-input:focus {
+  outline: none;
+  border-color: rgba(129, 14, 251, 0.5);
+  box-shadow: 0 0 10px rgba(129, 14, 251, 0.3);
+}
+
+/* New Color Palette */
+.color-palette {
+  display: flex;
+  gap: 0.5rem;
+}
+.color-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+.color-swatch:hover {
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.color-swatch.active {
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  transform: scale(1.1);
+}
+
+/* New Spawn Button Layout */
+.console-spawn-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.console-spawn-group .console-spawn-button {
+  /* A basic button style */
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap; /* Prevent line breaks */
+}
+.console-spawn-group .console-spawn-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Cleanup Console Status */
+.console-status {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 0.8rem;
+  font-size: 0.75rem;
+}
+.status-grid {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 0.25rem;
+}
+.status-grid span:first-child {
+  color: rgba(255, 255, 255, 0.5);
+}
+.status-grid span:last-child {
+  color: rgba(255, 255, 255, 0.9);
+}
